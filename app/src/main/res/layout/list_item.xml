@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@android:color/white"
+    app:cardCornerRadius="@dimen/cardCornerRadius"
+    app:cardElevation="@dimen/cardView_elevation"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true"
+    app:contentPadding="@dimen/contentPadding"
+    app:contentPaddingBottom="0dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textColor="@color/colorAccent"
+            tools:text="Andrew Sparrow"
+            android:textAppearance="?android:textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/section"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:background="@drawable/section_name"
+            android:textColor="@android:color/white"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:padding="@dimen/section_shape_padding"
+            tools:text="music"
+            android:textAppearance="?android:textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/section"
+            android:padding="5dp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif"
+            tools:text="Tories accused of 'subverting democracy' by not tabling Brexit debates"
+            android:textAppearance="?android:textAppearanceLarge" />
+        <TextView
+            android:id="@+id/trailText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:padding="5dp"
+            android:fontFamily="sans-serif"
+            tools:text="Rolling coverage of the day’s political developments as they happen"
+            android:textAppearance="?android:textAppearanceMedium"/>
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_below="@+id/trailText"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/colorAccent"
+            tools:text="15:51 PM"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:padding="@dimen/section_shape_padding"/>
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_below="@+id/trailText"
+            android:layout_toLeftOf="@+id/time"
+            android:textColor="@color/colorAccent"
+            tools:text="2018-05-30"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:padding="@dimen/section_shape_padding"/>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

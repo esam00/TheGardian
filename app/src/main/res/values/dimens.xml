@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cardView_height">300dp</dimen>
+    <dimen name="cardView_elevation">5dp</dimen>
+    <dimen name="cardCornerRadius">7dp</dimen>
+    <dimen name="contentPadding">10dp</dimen>
+    <dimen name="section_shape_width">110dp</dimen>
+    <dimen name="section_shape_height">30dp</dimen>
+    <dimen name="section_shape_padding">3dp</dimen>
+
+</resources>
