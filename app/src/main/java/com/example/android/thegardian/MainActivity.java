@@ -5,9 +5,11 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     /**
      * URL for content data from the TheGuardian dataset
      */
-    private static final String Guardian_REQUEST_URL ="https://content.guardianapis.com/search?q=health%20OR%20economy%20OR%20politics&from-date=2014-01-01&page-size=20&show-fields=trailText&show-tags=contributor&api-key=test";
+    private static final String Guardian_REQUEST_URL ="https://content.guardianapis.com/search?";
 
     /**
      * Constant value for the news loader ID. We can choose any integer.
@@ -114,10 +116,35 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public Loader<List<News>> onCreateLoader(int i, Bundle bundle) {
-        Log.i(LOG_TAG,"Test : onCreateLoader");
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        // Create a new loader for the given URL
-        return new NewsLoader(this, Guardian_REQUEST_URL);
+        // getString retrieves a String value from the preferences. The second parameter is the default value for this preference.
+        String topic = sharedPrefs.getString(
+                getString(R.string.settings_topic_key),
+                getString(R.string.settings_topic_default));
+
+        String orederBy = sharedPrefs.getString(
+                getString(R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_default));
+
+        // parse breaks apart the URI string that's passed into its parameter
+        Uri baseUri = Uri.parse(Guardian_REQUEST_URL);
+
+        // buildUpon prepares the baseUri that we just parsed so we can add query parameters to it
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+
+        // Append query parameter and its value.
+        uriBuilder.appendQueryParameter("api-key", "test");
+        uriBuilder.appendQueryParameter("q", topic);
+        uriBuilder.appendQueryParameter("from-date", "2016-01-01");
+        uriBuilder.appendQueryParameter("order-by", orederBy);
+        uriBuilder.appendQueryParameter("page-size","10");
+        uriBuilder.appendQueryParameter("show-fields","trailText");
+        uriBuilder.appendQueryParameter("show-tags","contributor");
+
+        // Return the completed uri : https://content.guardianapis.com/search?
+        // api-key=test&sections=variant&from-date=2014-01-01&page-size=20&show-fields=trailText&show-tags=contributor
+        return new NewsLoader(this, uriBuilder.toString());
     }
 
     @Override
@@ -145,7 +172,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         if (news != null && !news.isEmpty()) {
             mAdapter.addAll(news);
         }
-
     }
 
     /**
@@ -196,6 +222,23 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             List<News> news = QueryUtils.fetchNewsData(mUrl);
             return news;
         }
+    }
 
+    @Override
+    // This method initialize the contents of the Activity's options menu.
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the Options Menu we specified in XML
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
