@@ -111,19 +111,28 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             // Update empty state with no connection error message
             empty.setText(R.string.no_internet);
+
         }
+    }
+    // refresh the news when pressing back button
+    @Override
+    public void onRestart()
+    {
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
     }
 
     @Override
     public Loader<List<News>> onCreateLoader(int i, Bundle bundle) {
+
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // getString retrieves a String value from the preferences. The second parameter is the default value for this preference.
         String topic = sharedPrefs.getString(
                 getString(R.string.settings_topic_key),
                 getString(R.string.settings_topic_default));
-
-        String orederBy = sharedPrefs.getString(
+         String orderBy = sharedPrefs.getString(
                 getString(R.string.settings_order_by_key),
                 getString(R.string.settings_order_by_default));
 
@@ -137,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         uriBuilder.appendQueryParameter("api-key", "test");
         uriBuilder.appendQueryParameter("q", topic);
         uriBuilder.appendQueryParameter("from-date", "2016-01-01");
-        uriBuilder.appendQueryParameter("order-by", orederBy);
+        uriBuilder.appendQueryParameter("order-by", orderBy);
         uriBuilder.appendQueryParameter("page-size","10");
         uriBuilder.appendQueryParameter("show-fields","trailText");
         uriBuilder.appendQueryParameter("show-tags","contributor");
